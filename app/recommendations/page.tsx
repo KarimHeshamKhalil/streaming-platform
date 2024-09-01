@@ -14,11 +14,8 @@ export default function Recommendations() {
     async function fetchHistory() {
       const supabase = createClient()
       const { data: user ,error: userError } = await supabase.auth.getUser()
-
-      
       
       if (userError || !user.user) {
-        console.log('redirect');
         router.replace("/sign-up")
         return
       }
@@ -27,6 +24,8 @@ export default function Recommendations() {
       .from('history')
       .select()
       .eq('user_id', user.user.id)
+      .order('created_at', { ascending: true })
+      
 
       if (error) {
         console.log(error);
@@ -51,7 +50,6 @@ export default function Recommendations() {
 
         const {data} = await res.json()
 
-        console.log(data);
         setRecommendations(data.results)
         
       } catch (error) {
@@ -61,8 +59,6 @@ export default function Recommendations() {
     
     getRecommendations()
   }, [history])
-
-  console.log(history, "HERE");
   
 
   return (

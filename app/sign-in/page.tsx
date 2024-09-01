@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { login } from './actions'
+import Link from 'next/link'
 
 const formSchema = z.object({
   email: z
@@ -59,6 +60,11 @@ export default function SignIn() {
             </FormItem>
           )}
         />
+        <div className='flex items-center justify-center mt-2 text-red-900'>
+          <Link className='hover:underline' href={'/sign-up'}>
+            Don't have an account?
+          </Link>
+        </div>
         {error && (
           <p className='px-5 py-2 text-lg text-red-800 bg-red-100 rounded-md'>
             {error}

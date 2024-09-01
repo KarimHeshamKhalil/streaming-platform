@@ -15,9 +15,6 @@ export async function GET(request: Request) {
     type = 'tv'
   }
 
-  console.log(`${process.env.NEXT_PUBLIC_TMDB_API_URL}search/${type}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&query=${name}`);
-  
-
   try {    
     const res = await fetch(`${process.env.NEXT_PUBLIC_TMDB_API_URL}search/${type}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&query=${name}`)
     if (!res.ok) {

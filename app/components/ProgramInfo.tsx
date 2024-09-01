@@ -3,13 +3,34 @@ import { TMDBMovieResult } from '@/lib/types'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-export default function ProgramInfo({info} : TMDBMovieResult | any) {
+export default function ProgramInfo({info, programType} : TMDBMovieResult | any) {
   const [message, setMessage] = useState<string>('')
   const [isModal, setIsModal] = useState(false)
   const [imageError, setImageError] = useState(false)
-  const searchParams = useSearchParams()
-  const router = useRouter()
+  let type = info.name ? 'tv': 'movie'
+
+  if (programType === 'movie') {
+    type = programType
+    info.title = info.name
+    info.id = info.program_id
+  }
   
+  const handleWatchLater = async () => {
+    const name = info.name || info.title
+    const res = await fetch(`/api/watch-later?id=${info.id}&type=${type}&name=${encodeURIComponent(name)}&overview=${encodeURIComponent(info.overview)}&poster_path=${encodeURIComponent(info.poster_path)}&backdrop_path=${info.backdrop_path}`, {
+      method: 'POST'
+    })
+
+    if (!res.ok) {
+      console.log('Could not post to watch_later');
+    }
+
+    const result = await res.json()
+
+    if (result.error) {
+      console.log(result.error);
+    }
+  }
 
   return (
     <>
@@ -19,7 +40,6 @@ export default function ProgramInfo({info} : TMDBMovieResult | any) {
 
       {isModal && (
         <>
-          
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div 
               className="fixed inset-0 bg-black bg-opacity-50 z-40"
@@ -40,16 +60,26 @@ export default function ProgramInfo({info} : TMDBMovieResult | any) {
                         <p>Background Not Found Sorry :&#40;</p>
                       </div>
 
-                      <a href={searchParams.get('type') === 'show' ? `/tv-details?id=${info.id}`: `/watch?type=${searchParams.get('type')}&id=${info.id}`} className='text-white bg-red-600 opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg relative left-4'>
+                      <a href={type === 'tv' ? `/tv-details?id=${info.id}`: `/watch?type=${type}&id=${info.id}&name=${encodeURIComponent(info.title)}`} className='text-white bg-red-600 opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg relative left-4'>
                         Play Video
                       </a>
+
+                      <button onClick={handleWatchLater} className='text-red-600 bg-white opacity-100 hover:opacity-100 hover:text-white hover:bg-red-600 transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg relative left-4'>
+                        Add to Watch Later
+                      </button>
                   </>
                   ): (
                     <>
                       <img className='w-full h-[300px]' src={`https://image.tmdb.org/t/p/original${info.backdrop_path}`} onError={() => setImageError(true)} />
-                      <a href={searchParams.get('type') === 'show' ? `/tv-details?id=${info.id}`: `/watch?type=${searchParams.get('type')}&id=${info.id}&name=${info.title}`} className='text-white bg-red-600 opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg absolute bottom-2 left-2'>
-                        Play Video
-                      </a>
+                      <div className='absolute bottom-2 left-2 flex items-center gap-2'>
+                        <a href={type === 'tv' ? `/tv-details?id=${info.id}`: `/watch?type=${type}&id=${info.id}&name=${encodeURIComponent(info.title)}`} className='text-white bg-red-600 opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg'>
+                          Play Video
+                        </a>
+
+                        <button onClick={handleWatchLater} className='text-red-600 bg-white opacity-100 hover:opacity-100 hover:text-white hover:bg-red-600 transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg'>
+                          Add to Watch Later
+                        </button>
+                      </div>
                   </>
                   )}
                 </div>

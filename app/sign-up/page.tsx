@@ -9,6 +9,7 @@ import { FormEvent, SyntheticEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { signup } from './actions'
+import Link from 'next/link'
 
 
 const formSchema = z.object({
@@ -59,7 +60,13 @@ export default function SignUp() {
             </FormItem>
           )}
         />
-        <div className='flex items-center justify-center mt-4'>
+        <div className='flex items-center justify-center mt-2 text-red-900'>
+          <Link className='hover:underline' href={'/sign-in'}>
+            Already have an account?
+          </Link>
+        </div>
+
+        <div className='flex items-center justify-center mt-2'>
           <Button formAction={signup} type="submit">Submit</Button>
         </div>
       </form>

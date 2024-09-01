@@ -19,8 +19,7 @@ export async function signup(formData: FormData): Promise<{ success: true } | { 
     redirect('/error')
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/discover')
   
 
   return {success: true}

@@ -128,8 +128,6 @@ export default function TvDetails({ params, searchParams }: SearchProps) {
 
       const {result, error} = await res.json()
 
-      console.log(result, error, 'TV SEASONS');
-
       setShow(result)
     }
     
@@ -203,7 +201,7 @@ export default function TvDetails({ params, searchParams }: SearchProps) {
                   </p>
 
                   <div className='flex items-center justify-center'>
-                    <a href={`/watch?type=tv&name=${show.name}&id=${show.id}&season=${season}&episode=${index+1}`} className='text-slate-900 bg-white opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg'>
+                    <a href={`/watch?type=tv&name=${encodeURIComponent(show.name)}&id=${show.id}&season=${season}&episode=${index+1}`} className='text-slate-900 bg-white opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg'>
                       Play Video
                     </a>
                   </div>

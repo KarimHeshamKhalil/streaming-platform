@@ -124,7 +124,7 @@ export default function WatchPage({ params, searchParams }: SearchProps) {
   const episode = searchParams?.episode || ''
 
   const videoUrl = type === 'tv' ? `${process.env.NEXT_PUBLIC_VIDSRC_API_URL}embed/${type}/${id}/${season}/${episode}` : `${process.env.NEXT_PUBLIC_VIDSRC_API_URL}embed/${type}/${id}`
-
+  
   useEffect(() => {
     async function getShow() {      
       const res = await fetch(`api/tv?id=${id}`, {
