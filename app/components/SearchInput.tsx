@@ -1,5 +1,5 @@
 'use client'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import Programs from './Programs'
 
@@ -7,23 +7,7 @@ export default function SearchInput() {
   const searchParams = useSearchParams()
   const [name, setName] = useState<string>(searchParams.get('name') || '')
   const [programName, setProgramName] = useState('')
-  const [season, setSeason] = useState<string>(searchParams.get('s') || '')
-  const [episode, setEpisode] = useState<string>(searchParams.get('ep') || '')
   const [loading, setLoading] = useState<boolean>(false)
-  const router = useRouter()
-  
-  const handleType = (type: string) => {
-    if (type === 'movie') {
-      router.push(`?type=movie`)
-    } else if (type === 'show') {
-      router.push(`?type=show`)
-    }
-    if (type === 'movie' || type === 'show') {
-      setName('')
-      setEpisode('')
-      setSeason('')
-    }
-  }
 
   useEffect(() => {
     if (name) {
@@ -71,7 +55,6 @@ export default function SearchInput() {
       {name && (
         <Programs name={programName} type={searchParams.get('type')} loading={loading} setLoading={setLoading} />
       )}
-
       
     </>
   )

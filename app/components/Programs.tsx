@@ -1,5 +1,4 @@
 'use client'
-import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import ProgramInfo from './ProgramInfo';
 import { TMDBMovieResult } from '@/lib/types';
@@ -11,16 +10,7 @@ interface InfoProps {
   setLoading: Function;
 }
 
-interface TMDBMovieSearchResponse {
-  page: number;
-  results: TMDBMovieResult[];
-  total_results: number;
-  total_pages: number;
-}
-
-
-
-export default function Programs({ type, name, loading, setLoading }: InfoProps) {
+export default function Programs({ type, name, setLoading }: InfoProps) {
   const [message, setMessage] = useState<string>('')
   const [results, setResults] = useState<TMDBMovieResult[] | null>(null)
 
