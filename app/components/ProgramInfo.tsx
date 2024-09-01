@@ -1,119 +1,69 @@
 'use client'
-import { useRouter } from 'next/navigation'
+import { TMDBMovieResult } from '@/lib/types'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-interface InfoProps {
-  type: string | null;
-  name: string | null;
-  season: string | null;
-  episode: string | null;
-  loading: boolean;
-  setLoading: Function;
-}
-
-interface Ratings {
-  Source: string;
-  Value: string;
-}
-
-interface Movie {
-  Actors: string;
-  Awards: string;
-  Country: string;
-  Director: string;
-  Genre: string;
-  Language: string;
-  Metascore: string;
-  Plot: string;
-  Poster: string;
-  Rated: string;
-  Ratings: Ratings[];
-  Released: string;
-  Response: string;
-  Runtime: string;
-  Title: string;
-  Type: string;
-  Writer: string;
-  Year: string;
-  imdbID: string;
-  imdbRating: string;
-  imdbVotes: string;
-  totalSeasons: string;
-  Error: string;
-}
-
-export default function ProgramInfo({ type, name, season, episode, loading, setLoading }: InfoProps) {
+export default function ProgramInfo({info} : TMDBMovieResult | any) {
   const [message, setMessage] = useState<string>('')
-  const [info, setInfo] = useState<Movie | null>(null)
+  const [isModal, setIsModal] = useState(false)
+  const [imageError, setImageError] = useState(false)
+  const searchParams = useSearchParams()
   const router = useRouter()
-
-  const handleSearch = () => {
-    if (name && name.length > 3) {
-      if (type === 'show' && !season && !episode) {
-        return
-      }
-      router.push(`?type=${type}&name=${name}${type === 'show' ? `&s=${season}&ep=${episode}`: ''}`)
-    }
-  }
-
-  console.log(info, name);
-
-  useEffect(() => {
-    async function getData() {
-      const res = await fetch(`http://localhost:3000/api/search?name=${name}&type=${type}`, {
-        method: 'GET'
-      })
-
-      if (!res.ok) {
-        setMessage('Movie or Show not found')
-        return
-      }
-
-      const data = await res.json()
-
-      setInfo(data)
-      setLoading(false)
-    }
-    
-    getData()
-  }, [name])
+  
 
   return (
     <>
-      {info?.Title && !loading && (
-        <div className='w-full flex gap-4 bg-slate-100 px-5 py-2 rounded-lg hover:outline outline-1 outline-stone-600 transition-all duration-100 cursor-pointer group shadow-sm' onClick={handleSearch}>
-          <img className='h-[200px] shadow-md' src={info.Poster} alt="Poster" />
+      {(info?.title || info?.name) && !info.adult && (
+        <img onClick={() => setIsModal(prevVal => !prevVal)} className='h-[300px] shadow-md hover:rotate-3 hover:shadow-xl transition-all duration-200 ease-in-out cursor-pointer' src={`https://image.tmdb.org/t/p/original${info.poster_path}`} alt="Poster" />
+      )}
 
-          <div className='flex flex-col item'>
-            <span className='text-xl font-medium'>{info.Title}</span>
-
-            <div className='flex items-center flex-wrap gap-x-2 mb-2 max-w-[400px]'>
-              {info.Ratings.map((rating, index) => (
-                <p key={index} className='text-stone-700 flex items-center gap-1'>
-                  <span>{rating.Source}:</span>
-                  <span>{rating.Value}</span>
-                </p>
-              ))}
-            </div>
-
-            <p className='max-w-[400px]'>{info.Plot}</p>
-
-            <div className='w-full mt-2'>
-              <button className='text-red-600 group-hover:underline transition-all duration-100'>
-                Click to Watch
+      {isModal && (
+        <>
+          
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              onClick={() => setIsModal(prevVal => !prevVal)}
+            ></div>
+            <div className="bg-white rounded-lg py-2 shadow-lg z-50 relative max-w-[550px] overflow-hidden">
+              <button 
+                className="absolute -top-2 -right-2 text-slate-100 bg-red-600 rounded-lg px-4 pb-1 pt-3 pr-5 z-[1000]"
+                onClick={() => setIsModal(prevVal => !prevVal)}
+              >
+                &times;
               </button>
+              <div>
+                <div className='relative'>
+                  {imageError ? (
+                    <>
+                      <div className='w-full mx-auto mb-4 py-4 px-4  rounded-xl bg-stone-100'>
+                        <p>Background Not Found Sorry :&#40;</p>
+                      </div>
+
+                      <a href={searchParams.get('type') === 'show' ? `/tv-details?id=${info.id}`: `/watch?type=${searchParams.get('type')}&id=${info.id}`} className='text-white bg-red-600 opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg relative left-4'>
+                        Play Video
+                      </a>
+                  </>
+                  ): (
+                    <>
+                      <img className='w-full h-[300px]' src={`https://image.tmdb.org/t/p/original${info.backdrop_path}`} onError={() => setImageError(true)} />
+                      <a href={searchParams.get('type') === 'show' ? `/tv-details?id=${info.id}`: `/watch?type=${searchParams.get('type')}&id=${info.id}&name=${info.title}`} className='text-white bg-red-600 opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg absolute bottom-2 left-2'>
+                        Play Video
+                      </a>
+                  </>
+                  )}
+                </div>
+
+                <div className='px-4 py-2'>
+                  <h3 className='text-lg font-medium'>{info.title} {info.name}</h3>
+
+                  <p className='text-stone-800'>{info.overview}</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
-
-      {info?.Error && !loading && (
-        <div className='w-full bg-slate-100 px-5 py-2 rounded-lg text-center text-red-600 font-medium'>
-          {info?.Error}
-        </div>
-      )}
-
-      
     </>
   )
 }

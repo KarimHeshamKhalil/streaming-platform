@@ -1,13 +1,15 @@
 'use client'
+import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from "@/components/ui/input"
-import { signUp } from '@/lib/signUp'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { FormEvent, SyntheticEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { signup } from './actions'
+
 
 const formSchema = z.object({
   email: z
@@ -18,8 +20,6 @@ const formSchema = z.object({
 })
 
 export default function SignUp() {
-  const [error, setError] = useState<string>('')
-  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,24 +28,9 @@ export default function SignUp() {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const user = await signUp(values.email, values.password)
-      
-      if (user) {
-        console.log(user)
-        setError('')
-        router.push('/sign-in')
-      }
-      
-    } catch (error) {
-      setError(`Error: ${(error as Error).message}`)
-    }
-  }
-
   return (
     <Form {...form}>
-      <form className='max-w-[600px] mx-auto mt-12 border px-5 py-5 rounded-md relative' onSubmit={form.handleSubmit(onSubmit)}>
+      <form className='max-w-[600px] mx-auto mt-12 border px-5 py-5 rounded-md relative'>
         <h2 className='text-red-600 text-xl mb-2'>Sign Up</h2>
         <FormField
           control={form.control}
@@ -74,13 +59,8 @@ export default function SignUp() {
             </FormItem>
           )}
         />
-        {error && (
-          <p className='px-5 py-2 text-lg text-red-800 bg-red-100 rounded-md'>
-            {error}
-          </p>
-        )}
         <div className='flex items-center justify-center mt-4'>
-          <Button type="submit">Submit</Button>
+          <Button formAction={signup} type="submit">Submit</Button>
         </div>
       </form>
     </Form>

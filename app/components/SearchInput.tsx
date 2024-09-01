@@ -1,7 +1,7 @@
 'use client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import ProgramInfo from './ProgramInfo'
+import Programs from './Programs'
 
 export default function SearchInput() {
   const searchParams = useSearchParams()
@@ -39,31 +39,26 @@ export default function SearchInput() {
 
   return (
     <>
-      <div className='w-[50%] mx-auto px-2 flex items-center mb-4 bg-red-600 rounded-md'>
-        <button onClick={() => handleType('show')} className='bg-red-600 text-slate-50 hover:bg-red-700 flex-1 px-4 py-1 rounded-md font-medium'>Show</button>
-        <div className='h-[40px] w-[2px] bg-white'></div>
-        <button onClick={() => handleType('movie')} className='bg-red-600 text-slate-50 hover:bg-red-700 flex-1 px-4 py-1 rounded-md font-medium'>Movie</button>
+      <div className='flex items-center justify-center mb-2'>
+        <div className='w-[300px] flex items-center bg-red-600 rounded-md relative'>
+          <a className='flex-1 text-white px-2 py-2 text-center hover:bg-red-700 transition-all duration-100' href="/search?type=show">Show</a>
+          <a className='flex-1 text-white px-2 py-2 text-center hover:bg-red-700 transition-all duration-100' href="/search?type=movie">Movie</a>
+        </div>
       </div>
 
-      {searchParams.get('type') === 'movie' && (
-        <div className='w-[600px] relative'>
-          <input value={name} onChange={(e) => setName(e.target.value)} className='bg-slate-100 px-6 py-2 rounded-full w-full outline-none shadow-sm focus:shadow-md' placeholder='ex:Inception' type="text" />
-        </div>
-      )}
+      <div className='flex items-center justify-center mb-4'>
+        {searchParams.get('type') === 'movie' && (
+          <div className='w-[600px] relative'>
+            <input value={name} onChange={(e) => setName(e.target.value)} className='bg-slate-100 px-6 py-2 rounded-full w-full outline-none shadow-sm focus:shadow-md' placeholder='ex:Inception' type="text" />
+          </div>
+        )}
 
-      {searchParams.get('type') === 'show' && (
-        <div className='w-[600px] relative'>
-          <input value={name} onChange={(e) => setName(e.target.value)} className='bg-slate-100 px-6 py-2 rounded-full w-full outline-none shadow-sm focus:shadow-md' placeholder='ex:Inception' type="text" />
-        </div>
-      )}
-
-      {searchParams.get('type') === 'show' && (
-        <div className='w-[50%] mx-auto flex items-center bg-red-600 rounded-md mt-2 relative'>
-          <input value={season} onChange={(e) => setSeason(e.target.value)} className='bg-red-600 outline-none text-white px-4 py-2 rounded-md placeholder:text-stone-100 w-[160px]' type="number" placeholder='Season' />
-          <div className='h-[40px] w-[2px] absolute left-[50%] flex-1 bg-white'></div>
-          <input value={episode} onChange={(e) => setEpisode(e.target.value)} className='bg-red-600 outline-none text-white px-4 py-2 rounded-md placeholder:text-stone-100 w-[160px]' type="number" placeholder='Episode' />
-        </div>
-      )}
+        {searchParams.get('type') === 'show' && (
+          <div className='w-[600px] relative'>
+            <input value={name} onChange={(e) => setName(e.target.value)} className='bg-slate-100 px-6 py-2 rounded-full w-full outline-none shadow-sm focus:shadow-md' placeholder='ex:Inception' type="text" />
+          </div>
+        )}
+      </div>
 
       <div className='mt-2'></div>
 
@@ -74,7 +69,7 @@ export default function SearchInput() {
       )}
 
       {name && (
-        <ProgramInfo name={programName} type={searchParams.get('type')} season={season} episode={episode} loading={loading} setLoading={setLoading} />
+        <Programs name={programName} type={searchParams.get('type')} loading={loading} setLoading={setLoading} />
       )}
 
       

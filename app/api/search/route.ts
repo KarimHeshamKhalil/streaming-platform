@@ -1,5 +1,3 @@
-// endpoint to get json
-
 import { NextResponse } from "next/server";
 
 interface Data {
@@ -14,18 +12,25 @@ export async function GET(request: Request) {
   let type = searchParams.get('type')
 
   if (type === 'show') {
-    type = 'series'
+    type = 'tv'
   }
+
+  console.log(`${process.env.NEXT_PUBLIC_TMDB_API_URL}search/${type}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&query=${name}`);
+  
+
   try {    
-    const res = await fetch(`${process.env.OMDB_API_URL}?t=${name}&type=${type}&apikey=${process.env.OMDB_API_KEY}`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_TMDB_API_URL}search/${type}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&query=${name}`)
     if (!res.ok) {
-      throw new Error('Could not fetch movie details')
+      return NextResponse.json({
+        error: 'Could not fetch data'
+      })
     }
     movieDetails = await res.json()
-    
   } catch (error) {
     console.log(error)
-    return undefined
+    return NextResponse.json({
+      error: 'Could not fetch data'
+    })
   }
 
   if (movieDetails) {
