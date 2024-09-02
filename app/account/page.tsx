@@ -27,11 +27,11 @@ export default async function Account() {
         <div className='max-w-[700px] mx-auto mt-6 mb-6'>
           <h2 className='text-2xl font-medium mb-4'>Your Account</h2>
 
-          <p className='bg-slate-100 px-4 py-2 rounded-lg mb-2 shadow-sm'>
+          <p className='bg-slate-800 px-4 py-2 rounded-lg mb-2 shadow-sm'>
             <span className='font-medium mr-1'>Email:</span>
             <span>{user.user.email}</span>
           </p>
-          <p className='bg-slate-100 px-4 py-2 rounded-lg mb-2 shadow-sm'>
+          <p className='bg-slate-800 px-4 py-2 rounded-lg mb-2 shadow-sm'>
             <span className='font-medium mr-1'>Created At:</span>
             <span>{user.user.email_confirmed_at}</span>
           </p>

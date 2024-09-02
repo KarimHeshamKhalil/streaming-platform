@@ -16,14 +16,14 @@ export default async function DiscoverMovies() {
   
 
   return (
-    <div className='px-20 py-8'>
+    <div className='px-4 small-800:px-20 py-8 suse'>
       <div className='mb-6'>
         <h3 className='text-2xl font-medium mb-2'>Popular Movies</h3>
 
-        <div className='max-w-full min-h-[330px] flex items-center gap-2 scroll overflow-x-auto o '>
+        <div className='max-w-full min-h-[215px] small-800:min-h-[330px] flex items-center gap-2 scroll overflow-x-auto o '>
           {popularMovies && (
             popularMovies.map((item: any, index: React.Key | null | undefined) => (
-              <div className='min-w-[200px]' key={index}>
+              <div className='min-w-[134px] small-800:min-w-[200px]' key={index}>
                 <ProgramInfo info={item} />
               </div>
             ))
@@ -34,10 +34,10 @@ export default async function DiscoverMovies() {
       <div className='mb-6'>
         <h3 className='text-2xl font-medium mb-2'>Popular Shows</h3>
 
-        <div className='max-w-full min-h-[330px] flex items-center gap-2 scroll overflow-x-auto o '>
+        <div className='max-w-full min-h-[215px] small-800:min-h-[330px] flex items-center gap-2 scroll overflow-x-auto o '>
           {popularShows && (
             popularShows.map((item: any, index: React.Key | null | undefined) => (
-              <div className='min-w-[200px]' key={index}>
+              <div className='min-w-[134px] small-800:min-w-[200px]' key={index}>
                 <ProgramInfo info={item} />
               </div>
             ))
@@ -48,10 +48,10 @@ export default async function DiscoverMovies() {
       <div className='mb-6'>
         <h3 className='text-2xl font-medium mb-2'>Top Rated Movies</h3>
 
-        <div className='max-w-full min-h-[330px] flex items-center gap-2 scroll overflow-x-auto o '>
+        <div className='max-w-full min-h-[215px] small-800:min-h-[330px] flex items-center gap-2 scroll overflow-x-auto o '>
           {topMovies && (
             topMovies.map((item: any, index: React.Key | null | undefined) => (
-              <div className='min-w-[200px]' key={index}>
+              <div className='min-w-[134px] small-800:min-w-[200px]' key={index}>
                 <ProgramInfo info={item} />
               </div>
             ))
@@ -62,10 +62,10 @@ export default async function DiscoverMovies() {
       <div className='mb-6'>
         <h3 className='text-2xl font-medium mb-2'>Top Rated Shows</h3>
 
-        <div className='max-w-full min-h-[330px] flex items-center gap-2 scroll overflow-x-auto o '>
+        <div className='max-w-full min-h-[215px] small-800:min-h-[330px] flex items-center gap-2 scroll overflow-x-auto o '>
           {topShows && (
             topShows.map((item: any, index: React.Key | null | undefined) => (
-              <div className='min-w-[200px]' key={index}>
+              <div className='min-w-[134px] small-800:min-w-[200px]' key={index}>
                 <ProgramInfo info={item} />
               </div>
             ))

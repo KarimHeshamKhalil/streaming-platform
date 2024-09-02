@@ -13,7 +13,7 @@ export default function AccountLink() {
   }
 
   return (
-    <li onClick={handleClick} className='text-stone-950 hover:text-red-900 hover:text-opacity-90 transition-all duration-100 ease-in-out cursor-pointer'>
+    <li onClick={handleClick} className='text-white hover:text-red-600 hover:text-opacity-90 transition-all duration-100 ease-in-out cursor-pointer'>
       <span>Account</span>
     </li>
   )

@@ -133,6 +133,7 @@ export default function TvDetails({ params, searchParams }: SearchProps) {
     
     getShow()
   }, [])
+  
 
   useEffect(() => {
     async function getEpisodes() {      
@@ -159,15 +160,15 @@ export default function TvDetails({ params, searchParams }: SearchProps) {
     <>
       {show && (
         <div>
-          <div className='w-full px-12 py-2 flex bg-stone-50'>
-            <img className='h-[500px]' src={`https://image.tmdb.org/t/p/original${show?.poster_path}`} alt="Poster" />
+          <div className='w-full px-4 small-800:px-12 py-2 flex flex-col small-640:flex-row bg-slate-800'>
+            <img className='h-[300px] small-800:h-[500px] max-small-640:w-[200px] mx-auto' src={`https://image.tmdb.org/t/p/original${show?.poster_path}`} alt="Poster" />
 
             <div className='flex flex-col gap-y-4 py-4 px-4'>
-              <h1 className='text-3xl text-red-900 font-medium'>{show?.name}</h1>
+              <h1 className='text-3xl text-red-700 font-medium'>{show?.name}</h1>
 
-              <p className='text-lg text-stone-700 max-w-[700px]'>{show?.overview}</p>
+              <p className='text-lg text-stone-100 max-w-[700px]'>{show?.overview}</p>
 
-              <div className='flex items-center gap-x-2'>
+              <div className='flex items-center flex-wrap gap-2'>
                 {show?.genres.map((genre) => (
                   <span className='px-4 py-2 bg-red-700 text-white font-medium rounded-full'>
                     {genre.name}

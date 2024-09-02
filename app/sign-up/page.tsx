@@ -32,7 +32,7 @@ export default function SignUp() {
   return (
     <Form {...form}>
       <form className='max-w-[600px] mx-auto mt-12 border px-5 py-5 rounded-md relative'>
-        <h2 className='text-red-600 text-xl mb-2'>Sign Up</h2>
+        <h2 className='text-rose-500 text-xl mb-2'>Sign Up</h2>
         <FormField
           control={form.control}
           name="email"
@@ -40,7 +40,7 @@ export default function SignUp() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="ex:johndoe@example.com" {...field} />
+                <Input className='text-black' placeholder="ex:johndoe@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -54,20 +54,20 @@ export default function SignUp() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type='password' placeholder="must be more than 4 characters" {...field} />
+                <Input className='text-black' type='password' placeholder="must be more than 4 characters" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div className='flex items-center justify-center mt-2 text-red-900'>
+        <div className='flex items-center justify-center mt-2 text-rose-500'>
           <Link className='hover:underline' href={'/sign-in'}>
             Already have an account?
           </Link>
         </div>
 
         <div className='flex items-center justify-center mt-2'>
-          <Button formAction={signup} type="submit">Submit</Button>
+          <Button className='bg-slate-800 text-neutral-100 hover:text-slate-800 hover:bg-neutral-100 transition-all duration-100 ease-in-out' formAction={signup} type="submit">Submit</Button>
         </div>
       </form>
     </Form>

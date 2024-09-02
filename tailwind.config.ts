@@ -10,29 +10,16 @@ const config = {
   ],
   prefix: "",
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
+      screens: {
+        'small-800': '800px',
+        'small-640': '640px',
+        'small-500': '500px'
       },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
-    },
+      dropShadow: {
+        'red': '0 8px 8px rgba(255, 0, 0, 0.1)'
+      }
+    }
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config
