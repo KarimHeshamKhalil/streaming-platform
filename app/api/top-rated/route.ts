@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export async function GET_TOP_RATED() {
+export async function GET() {
   try { 
     const movieRes = await fetch(`${process.env.NEXT_PUBLIC_TMDB_API_URL}movie/top_rated?language=en-US&page=1&api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`)
     const showRes = await fetch(`${process.env.NEXT_PUBLIC_TMDB_API_URL}tv/top_rated?language=en-US&page=1&api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`)

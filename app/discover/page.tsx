@@ -1,8 +1,8 @@
 import React from 'react'
 import Programs from '../components/Programs'
 import ProgramInfo from '../components/ProgramInfo';
-import { GET_POPULAR } from '../api/popular/route';
-import { GET_TOP_RATED } from '../api/top-rated/route';
+import { GET as GET_POPULAR } from '../api/popular/route' ;
+import { GET as GET_TOP_RATED } from '../api/top-rated/route' ;
 
 export default async function DiscoverMovies() {
   const res1 = await GET_POPULAR()
