@@ -1,17 +1,22 @@
 import React from 'react'
 import Programs from '../components/Programs'
 import ProgramInfo from '../components/ProgramInfo';
+import { GET_POPULAR } from '../api/popular/route';
+import { GET_TOP_RATED } from '../api/top-rated/route';
 
 export default async function DiscoverMovies() {
-  const res1 = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/popular`, {
-    method: 'GET'
-  })
+  const res1 = await GET_POPULAR()
+  const res2 = await GET_TOP_RATED()
 
-  const res2 = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/top-rated`, {
-    method: 'GET'
-  })
+  if (!res1.ok || !res2.ok) {
+    return (
+      <div>
+        response not okay
+      </div>
+    )
+  }
 
-  const {popularMovies, popularShows, error: popularError} = await res1.json()
+  const {popularMovies, popularShows, error} = await res1.json()
   const {topMovies, topShows, error: topError} = await res2.json()
   
 
