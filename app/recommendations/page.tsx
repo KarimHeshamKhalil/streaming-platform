@@ -65,7 +65,7 @@ export default function Recommendations() {
     <div>
       <div className='max-w-[600px] mx-auto py-5 px-4'>
         <h2 className='text-xl small-500:text-2xl font-medium mb-2'>History</h2>
-        <div className='flex items-center gap-4 py-2 border-b '>
+        <div className='flex items-center gap-4 py-2 border-b flex-wrap'>
           {history && (
             history.map((item, index) => (
               <p key={index}>{item.name}</p>
@@ -75,7 +75,7 @@ export default function Recommendations() {
       </div>
 
       <h2 className='text-xl small-500:text-2xl font-medium mt-12 max-w-[600px] mx-auto py-5 px-4'>Reccomendations based on last Movie/TV Show</h2>
-      <div className='flex items-center flex-wrap gap-1 small-500:gap-4 px-2 pb-4 max-w-[900px] mx-auto'>
+      <div className='flex items-center justify-center flex-wrap gap-1 small-500:gap-4 px-2 pb-4 max-w-[900px] mx-auto'>
         {recommendations?.map((item, index) => (
           <div key={index}>
             <ProgramInfo info={item} />

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import Link from 'next/link';
+import AccountLink from './AccountLink';
 
 interface link {
   text: string,
@@ -38,6 +39,8 @@ export default function HamburgerNav({ links }: links) {
                 </Link>
               </li>
             ))}
+
+            <AccountLink />
           </ul>
         </div>
       )}
