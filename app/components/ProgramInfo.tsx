@@ -1,7 +1,8 @@
 'use client'
 import { TMDBMovieResult } from '@/lib/types'
-import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { ReactNotifications, Store } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
 export default function ProgramInfo({info, programType} : TMDBMovieResult | any) {
   const [message, setMessage] = useState<string>('')
@@ -18,18 +19,44 @@ export default function ProgramInfo({info, programType} : TMDBMovieResult | any)
   
   const handleWatchLater = async () => {
     const name = info.name || info.title
-    const res = await fetch(`/api/watch-later?id=${info.id}&type=${type}&name=${encodeURIComponent(name)}&overview=${encodeURIComponent(info.overview)}&poster_path=${encodeURIComponent(info.poster_path)}&backdrop_path=${info.backdrop_path}`, {
-      method: 'POST'
-    })
+    try {
+      const res = await fetch(`/api/watch-later?id=${info.id}&type=${type}&name=${encodeURIComponent(name)}&overview=${encodeURIComponent(info.overview)}&poster_path=${encodeURIComponent(info.poster_path)}&backdrop_path=${info.backdrop_path}`, {
+        method: 'POST'
+      })
 
-    if (!res.ok) {
-      console.log('Could not post to watch_later');
-    }
+      if (!res.ok) {
+        console.log('Could not post to watch_later');
+        throw new Error('watch_later POST response not okay')
+      }
 
-    const result = await res.json()
+      console.log('success');
+      
 
-    if (result.error) {
-      console.log(result.error);
+      Store.addNotification({
+        message: "Added successfully to your Watch Later",
+        type: "success",
+        insert: "top",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true
+        }
+      });
+    } catch (error) {
+      Store.addNotification({
+        message: "Already in your Watch Later or an Error has occurred",
+        type: "danger",
+        insert: "top",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true
+        }
+      });
     }
   }
   
@@ -52,6 +79,7 @@ export default function ProgramInfo({info, programType} : TMDBMovieResult | any)
       {isModal && (
         <>
           <div className="fixed inset-0 flex items-center justify-center z-50">
+            <ReactNotifications />
             <div 
               className="fixed inset-0 bg-black bg-opacity-50 z-40"
               onClick={() => setIsModal(prevVal => !prevVal)}
@@ -81,7 +109,7 @@ export default function ProgramInfo({info, programType} : TMDBMovieResult | any)
                   </>
                   ): (
                     <>
-                      <img className='w-full h-[300px]' src={`https://image.tmdb.org/t/p/original${info.backdrop_path}`} onError={() => setBackdropError(true)} />
+                      <img className='w-full h-fit' src={`https://image.tmdb.org/t/p/original${info.backdrop_path}`} onError={() => setBackdropError(true)} />
                       <div className='absolute bottom-2 left-2 flex items-center gap-2'>
                         <a href={type === 'tv' ? `/tv-details?id=${info.id}`: `/watch?type=${type}&id=${info.id}&name=${encodeURIComponent(info.title)}`} className='text-white bg-red-600 opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg capitalize'>
                           Play {type}

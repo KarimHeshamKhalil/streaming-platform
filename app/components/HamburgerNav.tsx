@@ -40,7 +40,9 @@ export default function HamburgerNav({ links }: links) {
               </li>
             ))}
 
-            <AccountLink />
+            <div onClick={() => setIsShown(prevVal => !prevVal)}>
+              <AccountLink />
+            </div>
           </ul>
         </div>
       )}

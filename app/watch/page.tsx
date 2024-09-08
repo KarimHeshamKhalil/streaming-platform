@@ -1,8 +1,9 @@
 'use client'
 
-import { createClient } from '@/lib/utils/client';
-import { redirect } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
+import { ReactNotifications, Store } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import VideoPlayer from '../components/VideoPlayer';
 
 interface SearchProps {
   params: { slug: string };
@@ -115,6 +116,7 @@ export default function WatchPage({ params, searchParams }: SearchProps) {
   const [show, setShow] = useState<Show | null>(null)
   const [episodes, setEpisodes] = useState<EpisodeDetails[] | null>(null)
   const [error, setError] = useState('')
+  const [videoUrl, setVideoUrl] = useState('')
   const didMountRef = useRef(false);
   
   const type = searchParams?.type
@@ -123,7 +125,8 @@ export default function WatchPage({ params, searchParams }: SearchProps) {
   const season = searchParams?.season || ''
   const episode = searchParams?.episode || ''
 
-  const videoUrl = type === 'tv' ? `${process.env.NEXT_PUBLIC_VIDSRC_API_URL}embed/${type}/${id}/${season}/${episode}` : `${process.env.NEXT_PUBLIC_VIDSRC_API_URL}embed/${type}/${id}`
+  const videoPath = type === 'tv' ? `/embed/${type}/${id}/${season}/${episode}` : `/embed/${type}/${id}`
+  
   
   useEffect(() => {
     async function getShow() {      
@@ -146,7 +149,7 @@ export default function WatchPage({ params, searchParams }: SearchProps) {
 
   useEffect(() => {
     async function postToHistory() { 
-      const res = await fetch(`/api/history?name=${name}&id=${id}&type=${type}`, {
+      const res = await fetch(`/api/history?name=${encodeURIComponent(`${name}`)}&id=${id}&type=${type}`, {
         method: 'POST'
       })
       
@@ -157,7 +160,8 @@ export default function WatchPage({ params, searchParams }: SearchProps) {
     } else {
       didMountRef.current = true
     }
-
+ 
+    setVideoUrl(process.env.NEXT_PUBLIC_VIDSRC_1_API_URL + videoPath)
   }, [])
 
   useEffect(() => {
@@ -180,14 +184,40 @@ export default function WatchPage({ params, searchParams }: SearchProps) {
   }, [season])
   
 
+  const handleSrc = (src: string) => {
+    if (src === '1') {
+      setVideoUrl(`${process.env.NEXT_PUBLIC_VIDSRC_1_API_URL}${videoPath}`)
+    } else if (src === '2') {
+      setVideoUrl(`${process.env.NEXT_PUBLIC_VIDSRC_2_API_URL}${videoPath}`)
+      Store.addNotification({
+        message: "This source forces ads, I am sorry :(",
+        type: "danger",
+        insert: "top",
+        container: "top-center",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true
+        }
+      });
+    }
+  }
+
   return (
-    <>
-      {type === 'movie' && id && (
-        <iframe src={videoUrl} allowFullScreen className='w-full h-screen'></iframe>
-      )}
-      {type === 'tv' && id && (
-        <iframe src={videoUrl} allowFullScreen className='w-full h-screen'></iframe>
-      )}
-    </>
+    <div className=''>
+      <div className='fixed top-16 right-2 flex flex-col items-center gap-2'>
+        <button onClick={() => handleSrc('1')} className='bg-red-600 text-white hover:text-red-600 hover:bg-white hover:shadow-md transition-all duration-200 ease-in-out rounded-sm px-8 py-1'>
+          Source 1
+        </button>
+        <button onClick={() => handleSrc('2')} className='bg-red-600 text-white hover:text-red-600 hover:bg-white hover:shadow-md transition-all duration-200 ease-in-out rounded-sm px-8 py-1'>
+          Source 2
+        </button>
+      </div>
+      
+      <ReactNotifications />
+
+      <VideoPlayer type={type} videoUrl={videoUrl} />
+    </div>
   )
 }

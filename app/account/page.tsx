@@ -4,7 +4,6 @@ import React from 'react'
 import ProgramInfo from '../components/ProgramInfo';
 import DeleteButton from '../components/DeleteButton';
 import LogoutButton from '../components/LogoutButton';
-import { revalidatePath } from 'next/cache';
 
 
 export default async function Account() {
@@ -21,7 +20,7 @@ export default async function Account() {
   
       
   return (
-    <div>
+    <div className='px-4'>
       {user.user && (
         <>
         <div className='max-w-[700px] mx-auto mt-6 mb-6'>
@@ -47,7 +46,7 @@ export default async function Account() {
           <div className='max-w-full min-h-[330px] flex items-center gap-2 scroll overflow-x-auto'>
             {watchLater && (
               watchLater.map((item, index) => (
-                <div className='min-w-[200px] relative group' key={index}>
+                <div className='min-w-fit small-800:min-w-[200px] relative group' key={index}>
                   <ProgramInfo info={item} programType={item.type} />
                   <DeleteButton programId={item.program_id} userId={user.user.id} />
                 </div>
