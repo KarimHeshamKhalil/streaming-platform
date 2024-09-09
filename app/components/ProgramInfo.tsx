@@ -109,7 +109,7 @@ export default function ProgramInfo({info, programType} : TMDBMovieResult | any)
                   </>
                   ): (
                     <>
-                      <img className='w-full max-small-500:max-h-[250px] h-fit' src={`https://image.tmdb.org/t/p/original${info.backdrop_path}`} onError={() => setBackdropError(true)} />
+                      <img className='w-full max-small-500:max-h-[250px] max-h-[310px] h-fit' src={`https://image.tmdb.org/t/p/original${info.backdrop_path}`} onError={() => setBackdropError(true)} />
                       <div className='absolute bottom-2 left-2 flex items-center gap-2'>
                         <a href={type === 'tv' ? `/tv-details?id=${info.id}`: `/watch?type=${type}&id=${info.id}&name=${encodeURIComponent(info.title)}`} className='text-white bg-red-600 opacity-100 hover:opacity-100 hover:text-red-600 hover:bg-white transition-all duration-150 px-4 py-2 cursor-pointer font-medium rounded-lg capitalize'>
                           Play {type}
