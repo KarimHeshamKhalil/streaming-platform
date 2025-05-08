@@ -1,36 +1,24 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+🎬 MovieStream - Streaming Platform
+A modern web application for streaming movies and TV shows built with Next.js, TypeScript, and Tailwind CSS.
 
-## Getting Started
+🚀 Tech Stack
+Next.js – React framework for SSR and fast performance
 
-First, run the development server:
+TypeScript – Type-safe JavaScript for better development experience
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Tailwind CSS – Utility-first CSS framework for custom UI
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+API Integration – (e.g. TMDb or custom API) to fetch movie/show data
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+📦 Features
+Browse popular, trending, and latest movies and TV shows
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Responsive design optimized for all devices
 
-## Learn More
+Movie/show detail pages with posters, trailers, ratings, and descriptions
 
-To learn more about Next.js, take a look at the following resources:
+Search functionality
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Light/Dark mode support (optional)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Clean and modular codebase
